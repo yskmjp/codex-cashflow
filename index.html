@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>かんたんライフプラン診断</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero">
+        <p class="eyebrow">Cashflow Snapshot</p>
+        <h1>かんたんライフプラン診断</h1>
+        <p class="hero-copy">
+          子育て期と老後のお金が持つかを、少ない入力でスマホ1画面のサマリーにまとめます。
+        </p>
+      </header>
+
+      <main class="page-layout">
+        <section class="input-band">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Input</p>
+              <h2>まずは今の前提を入れる</h2>
+            </div>
+            <button id="resetButton" class="text-button" type="button">初期値に戻す</button>
+          </div>
+
+          <form id="plannerForm" class="planner-form">
+            <label class="field">
+              <span class="field-label">年齢</span>
+              <span class="field-note">現在の年齢です</span>
+              <div class="stepper">
+                <button type="button" data-step-target="age" data-step="-1">-</button>
+                <input id="age" name="age" type="number" min="20" max="70" step="1" />
+                <button type="button" data-step-target="age" data-step="1">+</button>
+              </div>
+            </label>
+
+            <div class="inline-grid">
+              <label class="field">
+                <span class="field-label">大人の人数</span>
+                <span class="field-note">一緒に暮らす大人の人数です</span>
+                <select id="adults" name="adults"></select>
+              </label>
+
+              <label class="field">
+                <span class="field-label">子どもの人数</span>
+                <span class="field-note">扶養中の子どもの人数です</span>
+                <select id="children" name="children"></select>
+              </label>
+            </div>
+
+            <label class="field hidden" id="oldestChildField">
+              <span class="field-label">一番上の子の年齢</span>
+              <span class="field-note">子どもがいる場合だけ入力します</span>
+              <select id="oldestChildAge" name="oldestChildAge"></select>
+            </label>
+
+            <div class="inline-grid">
+              <label class="field">
+                <span class="field-label">月収</span>
+                <span class="field-note">毎月の手取り額を入れてください</span>
+                <div class="input-unit">
+                  <input id="monthlyIncome" name="monthlyIncome" type="number" min="1" max="300" step="1" />
+                  <span>万円 / 月</span>
+                </div>
+              </label>
+
+              <label class="field">
+                <span class="field-label">月の生活費</span>
+                <span class="field-note" id="expenseHint">おすすめ値を入力中です</span>
+                <div class="input-unit">
+                  <input id="monthlyExpense" name="monthlyExpense" type="number" min="1" max="200" step="1" />
+                  <span>万円 / 月</span>
+                </div>
+              </label>
+            </div>
+
+            <label class="field">
+              <span class="field-label">現在の金融資産</span>
+              <span class="field-note">現金と投資をまとめた今の合計額です</span>
+              <div class="input-unit">
+                <input id="financialAssets" name="financialAssets" type="number" min="0" max="100000" step="10" />
+                <span>万円</span>
+              </div>
+            </label>
+
+            <fieldset class="field event-fieldset">
+              <legend class="field-label">支出イベント</legend>
+              <p class="field-note">将来ありそうな大きな支出にチェックを入れてください</p>
+              <div class="checkbox-grid">
+                <label class="check-item">
+                  <input id="eventBuyHouse" name="eventBuyHouse" type="checkbox" />
+                  <span>家を買う</span>
+                </label>
+                <label class="check-item" id="collegeEventLabel">
+                  <input id="eventCollege" name="eventCollege" type="checkbox" />
+                  <span>子どもを大学まで行かせる</span>
+                </label>
+                <label class="check-item">
+                  <input id="eventBuyCar" name="eventBuyCar" type="checkbox" />
+                  <span>車を買う</span>
+                </label>
+                <label class="check-item">
+                  <input id="eventReformHouse" name="eventReformHouse" type="checkbox" />
+                  <span>家をリフォームする</span>
+                </label>
+                <label class="check-item">
+                  <input id="eventParentCare" name="eventParentCare" type="checkbox" />
+                  <span>親の介護費用がかかる</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <details class="advanced-box">
+              <summary>もう少し詳しくみる</summary>
+              <div class="advanced-grid">
+                <label class="field">
+                  <span class="field-label">毎月の積立額</span>
+                  <div class="input-unit">
+                    <input id="monthlySaving" name="monthlySaving" type="number" min="0" max="100" step="1" />
+                    <span>万円 / 月</span>
+                  </div>
+                </label>
+                <label class="field">
+                  <span class="field-label">想定退職年齢</span>
+                  <div class="stepper">
+                    <button type="button" data-step-target="retirementAge" data-step="-1">-</button>
+                    <input id="retirementAge" name="retirementAge" type="number" min="50" max="80" step="1" />
+                    <button type="button" data-step-target="retirementAge" data-step="1">+</button>
+                  </div>
+                </label>
+              </div>
+            </details>
+
+            <div class="sticky-cta">
+              <button id="simulateButton" class="primary-button" type="submit">診断してみる</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="result-band">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Result</p>
+              <h2>スマホ1画面サマリー</h2>
+            </div>
+          </div>
+
+          <section id="resultCard" class="result-card" aria-live="polite">
+            <div class="result-header">
+              <div>
+                <h3>かんたんライフプラン診断</h3>
+                <p id="resultSubline" class="result-subline">子育て期と老後のお金の見通しをまとめました</p>
+              </div>
+              <p id="resultMeta" class="result-meta">35歳 / 大人1人 / 子ども0人</p>
+            </div>
+
+            <div class="judge-stack">
+              <article class="judge-card judge-childcare" id="childcareCard">
+                <p class="judge-title">子どもの養育費</p>
+                <p id="childcareLabel" class="judge-label">-</p>
+                <p id="childcareComment" class="judge-comment">条件を入れると判定が表示されます。</p>
+              </article>
+              <article class="judge-card judge-retirement" id="retirementCard">
+                <p class="judge-title">老後の資金</p>
+                <p id="retirementLabel" class="judge-label">-</p>
+                <p id="retirementComment" class="judge-comment">年金も含めたざっくり判定です。</p>
+              </article>
+            </div>
+
+            <div class="metrics-list">
+              <div class="metric-row">
+                <span>養育期終了時点の資産</span>
+                <strong id="metricChildcareEnd">-</strong>
+              </div>
+              <div class="metric-row">
+                <span>60歳時点の資産</span>
+                <strong id="metricAge60">-</strong>
+              </div>
+              <div class="metric-row">
+                <span>老後の毎月収支</span>
+                <strong id="metricRetirementBalance">-</strong>
+              </div>
+            </div>
+
+            <div class="result-section">
+              <p class="mini-heading">主なイベント</p>
+              <ul id="eventList" class="pill-list"></ul>
+            </div>
+
+            <div class="result-section">
+              <p class="mini-heading">改善アクション</p>
+              <ul id="actionList" class="action-list"></ul>
+            </div>
+
+            <p class="result-footnote">
+              この結果は簡易診断です。実際の条件で変わる場合があります。
+            </p>
+          </section>
+
+          <div class="result-actions">
+            <button id="saveImageButton" class="primary-button" type="button">結果を画像で保存</button>
+            <button id="reviewButton" class="secondary-button" type="button">条件を見直す</button>
+            <button id="toggleDetailButton" class="text-button" type="button">詳細をみる</button>
+          </div>
+
+          <section id="detailPanel" class="detail-panel hidden">
+            <div class="detail-grid">
+              <div class="detail-block">
+                <p class="mini-heading">資産推移のハイライト</p>
+                <ul id="timelineHighlights" class="detail-list"></ul>
+              </div>
+              <div class="detail-block">
+                <p class="mini-heading">計算前提</p>
+                <ul id="assumptionList" class="detail-list"></ul>
+              </div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
