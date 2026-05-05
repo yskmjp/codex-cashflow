@@ -261,21 +261,23 @@ select:focus {
     linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(254, 249, 241, 0.96) 100%);
   border: 1px solid rgba(214, 203, 186, 0.8);
   border-radius: 24px;
-  padding: 18px;
+  padding: 14px;
   box-shadow: 0 22px 44px rgba(26, 30, 34, 0.12);
 }
 
 .result-header {
-  display: grid;
-  gap: 6px;
-  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
 }
 
 .result-header h3 {
   margin: 0;
   font-family: "Fraunces", serif;
-  font-size: 28px;
-  line-height: 1.04;
+  font-size: 22px;
+  line-height: 1.06;
 }
 
 .result-subline,
@@ -289,33 +291,38 @@ select:focus {
 
 .judge-stack {
   display: grid;
-  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .judge-card {
   border-radius: 18px;
-  padding: 14px;
+  padding: 12px;
   border: 1px solid transparent;
 }
 
 .judge-title {
-  margin: 0 0 6px;
-  font-size: 13px;
+  margin: 0 0 4px;
+  font-size: 12px;
   font-weight: 700;
 }
 
 .judge-label {
   margin: 0;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   line-height: 1.1;
 }
 
 .judge-comment {
-  margin: 6px 0 0;
-  font-size: 13px;
-  line-height: 1.55;
+  margin: 4px 0 0;
+  font-size: 11px;
+  line-height: 1.45;
   color: #3d4754;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .status-good {
@@ -335,26 +342,29 @@ select:focus {
 
 .metrics-list {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
-  margin: 14px 0;
+  margin: 10px 0;
 }
 
 .metric-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(216, 208, 195, 0.8);
+  display: grid;
+  gap: 6px;
+  padding: 10px 8px;
+  border: 1px solid rgba(216, 208, 195, 0.8);
+  border-radius: 14px;
+  background: rgba(255, 253, 248, 0.9);
 }
 
 .metric-row span {
   color: var(--muted);
-  font-size: 13px;
+  font-size: 11px;
+  line-height: 1.4;
 }
 
 .metric-row strong {
-  font-size: 20px;
+  font-size: 18px;
+  line-height: 1.15;
 }
 
 .metric-row strong.negative {
@@ -362,7 +372,7 @@ select:focus {
 }
 
 .result-section {
-  margin-top: 14px;
+  margin-top: 10px;
 }
 
 .pill-list,
@@ -376,24 +386,37 @@ select:focus {
 .pill-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .pill-list li {
   border: 1px solid #dacfbf;
   border-radius: 999px;
-  padding: 7px 10px;
+  padding: 6px 9px;
   background: #fffdf8;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .action-list,
 .detail-list {
   display: grid;
-  gap: 8px;
+  gap: 6px;
 }
 
-.action-list li,
+.action-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.action-list li {
+  color: #38414e;
+  font-size: 11px;
+  line-height: 1.35;
+  border: 1px solid rgba(216, 208, 195, 0.8);
+  border-radius: 12px;
+  background: #fffdf8;
+  padding: 7px 8px;
+}
+
 .detail-list li {
   color: #38414e;
   font-size: 13px;
@@ -403,7 +426,7 @@ select:focus {
 .result-actions {
   display: grid;
   gap: 10px;
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
 .detail-panel {
@@ -419,6 +442,54 @@ select:focus {
   padding: 14px;
 }
 
+@media (max-width: 859px) {
+  .app-shell {
+    padding: 18px 12px 36px;
+  }
+
+  .hero {
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .hero-copy {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .input-band,
+  .result-band {
+    padding: 16px 14px;
+    border-radius: 20px;
+  }
+
+  .section-head {
+    margin-bottom: 12px;
+  }
+
+  .section-head h2 {
+    font-size: 19px;
+  }
+
+  .result-subline {
+    display: none;
+  }
+
+  .result-meta {
+    text-align: right;
+    max-width: 140px;
+  }
+
+  .result-footnote {
+    font-size: 10px;
+    line-height: 1.35;
+    margin-top: 10px;
+  }
+}
+
 @media (min-width: 860px) {
   .page-layout {
     grid-template-columns: minmax(360px, 420px) minmax(0, 1fr);
@@ -432,6 +503,30 @@ select:focus {
   .input-band,
   .result-band {
     padding: 24px;
+  }
+
+  .result-card {
+    padding: 18px;
+  }
+
+  .result-header h3 {
+    font-size: 28px;
+  }
+
+  .judge-card {
+    padding: 14px;
+  }
+
+  .judge-label {
+    font-size: 24px;
+  }
+
+  .judge-comment {
+    font-size: 13px;
+  }
+
+  .metric-row strong {
+    font-size: 22px;
   }
 
   .inline-grid,

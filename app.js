@@ -528,18 +528,21 @@ function buildActions(timeline, input) {
   const scenarios = [
     {
       label: "生活費を月3万円下げる",
+      shortLabel: "生活費 -3万",
       apply: (draft) => {
         draft.monthlyExpense = Math.max(1, draft.monthlyExpense - 3);
       },
     },
     {
       label: "積立を月3万円増やす",
+      shortLabel: "積立 +3万",
       apply: (draft) => {
         draft.monthlySaving += 3;
       },
     },
     {
       label: "退職を2年遅らせる",
+      shortLabel: "退職 +2年",
       apply: (draft) => {
         draft.retirementAge += 2;
       },
@@ -558,7 +561,10 @@ function buildActions(timeline, input) {
         : scenario.label === "積立を月3万円増やす"
           ? "老後資金の不足を減らせます"
           : "老後の資産減少を抑えられます";
-    return `${scenario.label}と、${Math.abs(round1(delta))}万円ぶん改善しそうです。${target}`;
+    return {
+      short: scenario.shortLabel,
+      detail: `${scenario.label}と、${Math.abs(round1(delta))}万円ぶん改善しそうです。${target}`,
+    };
   });
 }
 
@@ -604,11 +610,11 @@ function renderResult(result) {
   renderList(
     ui.eventList,
     result.eventEntries.length
-      ? result.eventEntries.slice(0, 3).map((entry) => `${entry.age}歳 ${entry.label}`)
-      : ["大きな支出イベントは設定されていません"]
+      ? result.eventEntries.slice(0, 2).map((entry) => `${entry.age}歳 ${entry.label}`)
+      : ["イベントなし"]
   );
 
-  renderList(ui.actionList, result.actions);
+  renderList(ui.actionList, result.actions.map((item) => item.short));
   renderList(ui.assumptionList, [
     `年金開始は${CONFIG.simulation.pensionStartAge}歳前提です`,
     `年金月額は現在の月収から簡易推定しています`,
@@ -619,6 +625,7 @@ function renderResult(result) {
     [
       `養育期の終了目安は${result.childcareEndAge}歳です`,
       `年金の想定月額は${formatAmount(result.pensionPerMonth)}万円です`,
+      ...result.actions.map((item) => item.detail),
       `最終年齢${CONFIG.simulation.endAge}歳時点の資産は${formatAmount(result.timeline.at(-1).assets)}万円です`,
     ]
   );
@@ -689,7 +696,7 @@ function exportSummaryImage(result) {
   ]);
 
   drawListBox(ctx, 82, 1106, 916, 212, "主なイベント", result.eventEntries.length ? result.eventEntries.slice(0, 3).map((entry) => `${entry.age}歳 ${entry.label}`) : ["大きな支出イベントは設定されていません"]);
-  drawListBox(ctx, 82, 1344, 916, 250, "改善アクション", result.actions.slice(0, 3), true);
+  drawListBox(ctx, 82, 1344, 916, 250, "改善アクション", result.actions.slice(0, 3).map((item) => item.short), true);
 
   ctx.fillStyle = "#6c7480";
   ctx.font = "500 22px 'Zen Kaku Gothic New', sans-serif";
