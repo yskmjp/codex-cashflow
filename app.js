@@ -616,15 +616,20 @@ function renderResult(result) {
 
   renderList(ui.actionList, result.actions.map((item) => item.short));
   renderList(ui.assumptionList, [
-    `年金開始は${CONFIG.simulation.pensionStartAge}歳前提です`,
-    `年金月額は現在の月収から簡易推定しています`,
-    `子どもの年齢差は${CONFIG.childRules.siblingGapYears}歳差で仮置きしています`,
+    `終了年齢は${CONFIG.simulation.endAge}歳、退職は${result.input.retirementAge}歳前提です`,
+    `資産の運用利回りは年${Math.round(CONFIG.simulation.annualReturnRate * 100)}%、物価上昇は年${Math.round(CONFIG.simulation.inflationRate * 100)}%で見ています`,
+    `月収は退職まで年${(CONFIG.simulation.salaryGrowthRate * 100).toFixed(1)}%ずつ伸びる前提です`,
+    `年金は${CONFIG.simulation.pensionStartAge}歳から、現在の月収と大人の人数から簡易推定しています`,
+    `生活費は、大人${result.input.adults}人・子ども${result.input.children}人のおすすめ値を基準に、入力値を優先して使います`,
+    `子どもの生活費加算は22歳まで、兄弟姉妹は${CONFIG.childRules.siblingGapYears}歳差で仮置きしています`,
+    `大学費用は一番上の子が18歳になる年を基準に、子ども1人あたり${CONFIG.eventTemplates.college.amountPerChild}万円で計上します`,
+    `家・車・リフォーム・介護のイベントは、チェックした標準金額と標準年齢で計上します`,
   ]);
   renderList(
     ui.timelineHighlights,
     [
-      `養育期の終了目安は${result.childcareEndAge}歳です`,
-      `年金の想定月額は${formatAmount(result.pensionPerMonth)}万円です`,
+      `養育期はおおよそ${result.childcareEndAge}歳までとして見ています`,
+      `老後資金は、年金の想定月額${formatAmount(result.pensionPerMonth)}万円を含めて判定しています`,
       ...result.actions.map((item) => item.detail),
       `最終年齢${CONFIG.simulation.endAge}歳時点の資産は${formatAmount(result.timeline.at(-1).assets)}万円です`,
     ]
